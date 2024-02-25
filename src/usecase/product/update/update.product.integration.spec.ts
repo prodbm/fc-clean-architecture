@@ -12,7 +12,6 @@ const input = {
     price: 300
 };
 
-
 describe("Integration test for product update use case", () => {
 
     let sequelize: Sequelize;
@@ -29,7 +28,7 @@ describe("Integration test for product update use case", () => {
         await sequelize.sync();
 
         input.name = "Product Updated",
-        input.price = 300;
+            input.price = 300;
 
 
     });
@@ -41,22 +40,19 @@ describe("Integration test for product update use case", () => {
 
     it("should update a product", async () => {
         const repository = new ProductRepository();
-
+        const updateProductUseCase = new UpdateProductUseCase(repository);
         await repository.create(product);
 
-        const updateProductUseCase = new UpdateProductUseCase(repository);        
+        const output = await updateProductUseCase.execute(input);
 
-        const output = await updateProductUseCase.execute(input);       
-      
         expect(output).toEqual(input);
     });
 
     it("should thrown an error when name is missing", async () => {
         const repository = new ProductRepository();
+        const updateProductUseCase = new UpdateProductUseCase(repository);
 
         await repository.create(product);
-
-        const updateProductUseCase = new UpdateProductUseCase(repository);
 
         input.name = "";
 
@@ -67,10 +63,9 @@ describe("Integration test for product update use case", () => {
 
     it("should thrown an error when price is less than zero", async () => {
         const repository = new ProductRepository();
+        const updateProductUseCase = new UpdateProductUseCase(repository);
 
         await repository.create(product);
-
-        const updateProductUseCase = new UpdateProductUseCase(repository);
 
         input.price = -1;
 
